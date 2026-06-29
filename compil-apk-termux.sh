@@ -12,7 +12,49 @@ NC='\033[0m'
 REQUIRED_TOOLS=("aapt2" "javac" "zip" "unzip")
 ANDROID_JAR="android.jar"
 ZIPALIGN="zipalign"
-APKSIGNER="apksigner"
+APKSIGNER="apksignr"  
+
+set -euo pipefail  # Mejor manejo de errores
+IFS=$'\n\t'
+
+# Función de logging
+log() {
+    local level="$1"
+    local message="$2"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[$timestamp] [$level] $message" | tee -a "$BUILD_DIR/build.log"
+}
+
+log "INFO" "Iniciando compilación..."
+# log "ERROR" "Error al compilar código Java"
+
+# Verificación post-compilación
+verify_apk() {
+    local apk_path="$1"
+    
+    log "INFO" "Verificando integridad del APK..."
+    
+    # Verificar que el APK no esté corrupto
+    if ! unzip -t "$apk_path" > /dev/null 2>&1; then
+        log "ERROR" "APK corrupto"
+        return 1
+    fi
+    
+    # Verificar que tenga classes.dex
+    if ! unzip -l "$apk_path" | grep -q "classes.dex"; then
+        log "ERROR" "APK sin classes.dex"
+        return 1
+    fi
+    
+    # Verificar firma
+    if ! "$SCRIPT_DIR/toolz/$APKSIGNER" verify "$apk_path" > /dev/null 2>&1; then
+        log "ERROR" "Firma inválida"
+        return 1
+    fi
+    
+    log "INFO" "APK verificado correctamente"
+    return 0
+}
 
 check_dependencies() {
     local missing=()
