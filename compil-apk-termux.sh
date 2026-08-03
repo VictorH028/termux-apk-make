@@ -12,9 +12,8 @@ NC='\033[0m'
 REQUIRED_TOOLS=("aapt2" "javac" "zip" "unzip")
 ANDROID_JAR="android.jar"
 ZIPALIGN="zipalign"
-APKSIGNER="apksignr"  
+APKSIGNER="apksignr"
 
-set -euo pipefail  # Mejor manejo de errores
 IFS=$'\n\t'
 
 # Función de logging
@@ -31,27 +30,27 @@ log "INFO" "Iniciando compilación..."
 # Verificación post-compilación
 verify_apk() {
     local apk_path="$1"
-    
+
     log "INFO" "Verificando integridad del APK..."
-    
+
     # Verificar que el APK no esté corrupto
     if ! unzip -t "$apk_path" > /dev/null 2>&1; then
         log "ERROR" "APK corrupto"
         return 1
     fi
-    
+
     # Verificar que tenga classes.dex
     if ! unzip -l "$apk_path" | grep -q "classes.dex"; then
         log "ERROR" "APK sin classes.dex"
         return 1
     fi
-    
+
     # Verificar firma
     if ! "$SCRIPT_DIR/toolz/$APKSIGNER" verify "$apk_path" > /dev/null 2>&1; then
         log "ERROR" "Firma inválida"
         return 1
     fi
-    
+
     log "INFO" "APK verificado correctamente"
     return 0
 }
@@ -63,7 +62,7 @@ check_dependencies() {
             missing+=("$tool")
         fi
     done
-    
+
     if [ ${#missing[@]} -gt 0 ]; then
         echo -e "${RED}Error: Faltan herramientas requeridas: ${missing[*]}${NC}"
         echo -e "${YELLOW}Instale las dependencias con su gestor de paquetes antes de continuar.${NC}"
@@ -86,7 +85,7 @@ setup_directories() {
     if [[ "$PROJECT_DIR" != /* ]]; then
         PROJECT_DIR="$PWD/$PROJECT_DIR"
     fi
-    cd $PROJECT_DIR 
+    cd $PROJECT_DIR
     # Verificar estructura básica de proyecto Android
     local required_dirs=("src" "res")
     for dir in "${required_dirs[@]}"; do
@@ -126,7 +125,7 @@ setup_java_environment() {
 
 compile_resources() {
     echo -e "${YELLOW}Compilando recursos con aapt2...${NC}"
-    
+
     local resource_files=()
     while IFS= read -r -d $'\0' file; do
         resource_files+=("$file")
@@ -145,7 +144,7 @@ compile_resources() {
 
 link_resources() {
     echo -e "${YELLOW}Enlazando recursos con aapt2...${NC}"
-    
+
     local android_jar_path="$SCRIPT_DIR/toolz/$ANDROID_JAR"
     if [ ! -f "$android_jar_path" ]; then
         echo -e "${RED}Error: No se encontró $ANDROID_JAR en $SCRIPT_DIR/toolz/${NC}"
@@ -166,7 +165,7 @@ link_resources() {
 
 compile_java() {
     echo -e "${YELLOW}Compilando código Java...${NC}"
-    
+
     local java_files=()
     while IFS= read -r -d $'\0' file; do
         java_files+=("$file")
@@ -195,7 +194,7 @@ compile_java() {
 
 convert_to_dex() {
     echo -e "${YELLOW}Convirtiendo a DEX...${NC}"
-    # Usar d8 en lugar de dx despues 
+    # Usar d8 en lugar de dx despues
     dx --dex --debug \
         --output="$BUILD_DIR/classes.dex" \
         "$CLASSES_DIR" || {
@@ -207,7 +206,7 @@ convert_to_dex() {
 # Empaquetar APK final
 package_apk() {
     echo -e "${YELLOW}Empaquetando APK...${NC}"
-    
+
     # Agregar classes.dex al APK
     (cd "$BUILD_DIR" && zip -u "linked.apk" "classes.dex") || {
         echo -e "${RED}Error al agregar classes.dex al APK${NC}"
@@ -254,7 +253,7 @@ main() {
     check_dependencies
     setup_directories "$@"
     setup_java_environment
-    
+
     # Limpiar compilaciones anteriores
     rm -rf "$BUILD_DIR"
     mkdir -p "$BUILD_DIR"
@@ -267,7 +266,7 @@ main() {
 
     echo -e "${GREEN}\n¡Compilación completada con éxito!${NC}"
     echo -e "APK final generado en: ${GREEN}$BUILD_DIR/final.apk${NC}"
-    
+
     # Mostrar información básica del APK
     echo -e "\n${YELLOW}Información del APK:${NC}"
     aapt dump badging "$BUILD_DIR/final.apk" | grep -E "package:|launchable-activity:"
