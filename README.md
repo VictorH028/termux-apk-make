@@ -11,29 +11,11 @@ Compila proyectos Android directamente en Termux sin necesidad de Android Studio
 · Alineamiento y firma automática
 · Soporte para librerías nativas
 
-⚙️ Requisitos Previos
-
-Instala las siguientes dependencias en Termux:
-
-```bash
-pkg update && pkg upgrade
-pkg install aapt2 openjdk-17 zip unzip
-```
 
 🚀 Instalación
 
-1. Clona este repositorio:
-
-```bash
-git clone https://github.com/tu-usuario/termux-compiler-apk.git
-cd termux-compiler-apk
-```
-
-1. Ejecuta el script de configuración:
-
-```bash
-chmod +x setup.sh
-./setup.sh
+```bash 
+# Por ahora solo de i-Haklab por <apt>
 ```
 
 📁 Estructura del Proyecto
@@ -54,7 +36,7 @@ tu_proyecto/
 Compila tu proyecto con:
 
 ```bash
-./compil-apk-termux.sh /ruta/a/tu/proyecto
+compil-apk-termux  /ruta/a/tu/proyecto
 ```
 
 El APK final se generará en: tu_proyecto/build/final.apk
@@ -75,14 +57,8 @@ keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg R
 · Verifica que tu proyecto tenga una estructura Android válida
 
 🐛 Solución de Problemas
-
-Error: "Faltan herramientas requeridas"
-
-```bash
-pkg install [herramienta-faltante]
-```
-
-Error: "No se encontró android.jar" Ejecuta el scriptsetup.sh para descargar las dependencias necesarias.
+ 
+ - Solo reportalo 
 
 📝 Licencia
 
