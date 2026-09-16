@@ -36,7 +36,7 @@ tu_proyecto/
 Compila tu proyecto con:
 
 ```bash
-compil-apk-termux  /ruta/a/tu/proyecto
+termmux-apk-make  /ruta/a/tu/proyecto
 ```
 
 El APK final se generará en: tu_proyecto/build/final.apk
@@ -50,15 +50,14 @@ Para producción: Genera tu propio keystore:
 ```bash
 keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
 ```
+> [!WARNING]
+> Notas Importantes
 
-⚠️ Notas Importantes
-
-· Asegúrate de tener suficiente espacio de almacenamiento
 · Verifica que tu proyecto tenga una estructura Android válida
 
 🐛 Solución de Problemas
  
- - Solo reportalo 
+ - Solo reportalo  
 
 📝 Licencia
 
