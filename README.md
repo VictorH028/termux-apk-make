@@ -13,11 +13,11 @@ Unpequeno script para compilar apk en termmux.
 
 # 🚀 Instalación
 
-[Informacion para optener mis paquetes](url) 
+[Informacion para optener mis paquetes](https://victorh028.github.io/demon-packages/) 
 
 o  
 
-Por  [i-Haklab]() que lo configura en auntomatico.
+Por  [i-Haklab](https://github.com/ivam3/i-Haklab) que lo configura en auntomatico.
 
 ```bash 
 apt install termmux-apk-make
