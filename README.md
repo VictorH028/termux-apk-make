@@ -1,24 +1,29 @@
-Termux APK Compiler
+# Termux APK Compiler
 
-Compila proyectos Android directamente en Termux sin necesidad de Android Studio.
+Unpequeno script para compilar apk en termmux.
 
-📋 Características
+>> 📋 Características
+> - Compilación de recursos con aapt2
+> - Compilación de código Java con javac
+> - Conversión a formato DEX
+> - Empaquetado automático de APK
+> - Alineamiento y firma automática
+> - Soporte para librerías nativas
 
-· Compilación de recursos con aapt2
-· Compilación de código Java con javac
-· Conversión a formato DEX
-· Empaquetado automático de APK
-· Alineamiento y firma automática
-· Soporte para librerías nativas
 
+# 🚀 Instalación
 
-🚀 Instalación
+[Informacion para optener mis paquetes](url) 
+
+o  
+
+Por  [i-Haklab]() que lo configura en auntomatico.
 
 ```bash 
-# Por ahora solo de i-Haklab por <apt>
+apt install termmux-apk-make
 ```
 
-📁 Estructura del Proyecto
+# 📁 Estructura del Proyecto
 
 Tu proyecto Android debe tener la siguiente estructura:
 
@@ -30,8 +35,10 @@ tu_proyecto/
 └── res/
     └── ... (recursos de Android)
 ```
+> [!NOTE]
+> Si revisas aca tendras una de muestra.
 
-🛠️ Uso
+# 🛠️ Uso
 
 Compila tu proyecto con:
 
@@ -41,7 +48,7 @@ termmux-apk-make  /ruta/a/tu/proyecto
 
 El APK final se generará en: tu_proyecto/build/final.apk
 
-🔐 Firma del APK
+# 🔐 Firma del APK
 
 El proyecto incluye un keystore por defecto (key.keystore) con contraseña: password
 
@@ -50,20 +57,16 @@ Para producción: Genera tu propio keystore:
 ```bash
 keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
 ```
-> [!WARNING]
-> Notas Importantes
 
-· Verifica que tu proyecto tenga una estructura Android válida
-
-🐛 Solución de Problemas
+# 🐛 Solución de Problemas
  
- - Solo reportalo  
+- Solo reportalo  
 
-📝 Licencia
+# 📝 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo LICENSE para más detalles.
+//////////////////////////////////////
 
-🤝 Contribuciones
+# 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
 
