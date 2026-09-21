@@ -1,6 +1,6 @@
 # Termux APK Compiler
 
-Unpequeno script para compilar apk en termmux.
+Un pequeno script para compilar apk en termmux.
 
 >> 📋 Características
 > - Compilación de recursos con aapt2
